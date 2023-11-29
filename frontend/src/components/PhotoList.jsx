@@ -17,6 +17,7 @@ const PhotoList = (props) => {
         key={photo.id}
         markAsFavPhoto={props.markAsFavPhoto}
         photo={photo}
+        openModal={props.openModal}
         />
       ))}
     </ul>
