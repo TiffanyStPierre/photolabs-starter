@@ -3,12 +3,13 @@ import React, { useCallback, useState } from 'react';
 import FavIcon from './FavIcon';
 import '../styles/PhotoFavButton.scss';
 
-function PhotoFavButton() {
+function PhotoFavButton(props) {
 
   const [favorite, setFavorite] = useState(false);
 
   const favClick = function() {
     setFavorite((prevFavorite) => !prevFavorite);
+    props.markAsFavPhoto(props.photo);
   };
 
   return (

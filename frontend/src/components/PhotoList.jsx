@@ -15,6 +15,8 @@ const PhotoList = (props) => {
         country={photo.location.country}
         profile={photo.user.profile}
         key={photo.id}
+        markAsFavPhoto={props.markAsFavPhoto}
+        photo={photo}
         />
       ))}
     </ul>
