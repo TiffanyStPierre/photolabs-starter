@@ -1,7 +1,6 @@
 import React from 'react';
 
-import PhotoList from './components/PhotoList';
-import TopNavigationBar from './components/TopNavigationBar';
+import HomeRoute from './routes/HomeRoute';
 import './App.scss';
 
 /*const photos = [
@@ -41,8 +40,7 @@ import './App.scss';
 const App = () => {
   return (
     <div className="App">
-      <TopNavigationBar />
-      <PhotoList />
+      <HomeRoute />
     </div>
   );
 };
