@@ -11,6 +11,21 @@ const App = () => {
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [favPhotos, setFavPhotos] = useState([]);
+
+  const markAsFavPhoto = function(photo) {
+    setFavPhotos((prev) => {
+      // Check if the photo is already in favPhotos
+      const isPhotoInFavorites = prev.some((favPhoto) => favPhoto.id === photo.id);
+  
+      // If the photo is in favorites, remove it; otherwise, add it
+      if (isPhotoInFavorites) {
+        return prev.filter((favPhoto) => favPhoto.id !== photo.id);
+      } else {
+        return [...prev, photo];
+      }
+    });
+  };
   
   const openModal = (photo) => {
     setModalOpen(true);
@@ -23,8 +38,8 @@ const App = () => {
 
   return (
     <div className="App">
-      <HomeRoute photos={mockPhotos} topics={mockTopics} openModal={openModal}/>
-      {isModalOpen && <PhotoDetailsModal closeModal={closeModal} photo={selectedPhoto} />}
+      <HomeRoute photos={mockPhotos} topics={mockTopics} openModal={openModal} favPhotos={favPhotos} markAsFavPhoto={markAsFavPhoto}/>
+      {isModalOpen && <PhotoDetailsModal closeModal={closeModal} photo={selectedPhoto} photos={mockPhotos} favPhotos={favPhotos} markAsFavPhoto={markAsFavPhoto}/>}
     </div>
   );
 };
