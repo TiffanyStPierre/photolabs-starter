@@ -5,42 +5,33 @@ import './App.scss';
 import mockPhotos from './mocks/photos';
 import mockTopics from './mocks/topics';
 import PhotoDetailsModal from 'routes/PhotoDetailsModal';
+import useApplicationData from 'hooks/useApplicationData';
 
 // Note: Rendering a single component to build components in isolation
 const App = () => {
-
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [favPhotos, setFavPhotos] = useState([]);
-
-  const markAsFavPhoto = function(photo) {
-    setFavPhotos((prev) => {
-      // Check if the photo is already in favPhotos
-      const isPhotoInFavorites = prev.some((favPhoto) => favPhoto.id === photo.id);
-  
-      // If the photo is in favorites, remove it; otherwise, add it
-      if (isPhotoInFavorites) {
-        return prev.filter((favPhoto) => favPhoto.id !== photo.id);
-      } else {
-        return [...prev, photo];
-      }
-    });
-  };
-  
-  const openModal = (photo) => {
-    setModalOpen(true);
-    setSelectedPhoto(photo);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  const { state, updateToFavPhotoIds, onPhotoSelect, onClosePhotoDetailsModal, isPhotoInFavorites } = useApplicationData();
 
   return (
     <div className="App">
-      <HomeRoute photos={mockPhotos} topics={mockTopics} openModal={openModal} favPhotos={favPhotos} markAsFavPhoto={markAsFavPhoto}/>
-      {isModalOpen && <PhotoDetailsModal closeModal={closeModal} photo={selectedPhoto} photos={mockPhotos} favPhotos={favPhotos} markAsFavPhoto={markAsFavPhoto}/>}
+      <HomeRoute
+        photos={mockPhotos}
+        topics={mockTopics}
+        openModal={onPhotoSelect}
+        markAsFavPhoto={updateToFavPhotoIds}
+        isPhotoInFavorites={isPhotoInFavorites}
+        favPhotos={state.favPhotos}
+      />
+
+      {state.isModalOpen && <PhotoDetailsModal
+        closeModal={onClosePhotoDetailsModal}
+        photo={state.selectedPhoto}
+        photos={mockPhotos}
+        markAsFavPhoto={updateToFavPhotoIds}
+        isPhotoInFavorites={isPhotoInFavorites}
+      />}
+
     </div>
+
   );
 };
 
