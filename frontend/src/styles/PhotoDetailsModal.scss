@@ -26,11 +26,10 @@
 
 .photo-details-modal__body {
   margin: 0 auto;
-  width: 90%;
+  width: 80%;
 }
 
 .photo-details-modal__images {
-  margin-left: 36px;
   margin-top: 8px;
 }
 
@@ -46,6 +45,10 @@
   margin: 16px;
   margin-top: 8px;
   align-items: center;
+}
+
+.photo-details-modal__similar-photos-heading {
+  text-align: center;
 }
 
 .photo-details-modal__photographer-details {
