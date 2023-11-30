@@ -1,42 +1,58 @@
-import React, { useState } from 'react';
+import { useReducer } from 'react';
+
+// Define action types
+export const ACTIONS = {
+  FAV_PHOTO_ADDED: 'FAV_PHOTO_ADDED',
+  FAV_PHOTO_REMOVED: 'FAV_PHOTO_REMOVED',
+  SET_MODAL_OPEN: 'SET_MODAL_OPEN',
+  SET_SELECTED_PHOTO: 'SET_SELECTED_PHOTO',
+};
+
+// Define initial state
+const initialState = {
+  isModalOpen: false,
+  selectedPhoto: null,
+  favPhotos: [],
+};
+
+// Define the reducer function
+function reducer(state, action) {
+  switch (action.type) {
+    case ACTIONS.FAV_PHOTO_ADDED:
+      return { ...state, favPhotos: [...state.favPhotos, action.payload] };
+    case ACTIONS.FAV_PHOTO_REMOVED:
+      return { ...state, favPhotos: state.favPhotos.filter((id) => id !== action.payload) };
+    case ACTIONS.SET_MODAL_OPEN:
+      return { ...state, isModalOpen: action.payload };
+    case ACTIONS.SET_SELECTED_PHOTO:
+      return { ...state, selectedPhoto: action.payload };
+    default:
+      throw new Error(`Tried to reduce with unsupported action type: ${action.type}`);
+  }
+}
 
 function useApplicationData() {
+  // Use useReducer with the reducer and initial state
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [favPhotos, setFavPhotos] = useState([]);
-
-  const state = {
-    isModalOpen,
-    selectedPhoto,
-    favPhotos
+  // Action creators
+  const updateToFavPhotoIds = (id) => {
+    dispatch({ type: state.favPhotos.includes(id) ? ACTIONS.FAV_PHOTO_REMOVED : ACTIONS.FAV_PHOTO_ADDED, payload: id });
   };
 
-  const isPhotoInFavorites = function(id) {
-    //console.log("isPhotoInFavorites", id);
-    return favPhotos.includes(id);
+  const onPhotoSelect = (photo) => {
+    dispatch({ type: ACTIONS.SET_MODAL_OPEN, payload: true });
+    dispatch({ type: ACTIONS.SET_SELECTED_PHOTO, payload: photo });
   };
 
-  const updateToFavPhotoIds = function(id) {
-    console.log("updateToFavPhotoIds", id);
-    if (isPhotoInFavorites(id)) {
-      return setFavPhotos(favPhotos.filter(i => i !== id));
-    }
-
-    setFavPhotos([...favPhotos, id]);
-
+  const onClosePhotoDetailsModal = () => {
+    dispatch({ type: ACTIONS.SET_MODAL_OPEN, payload: false });
   };
 
-  const onPhotoSelect = function(photo) {
-    setModalOpen(true);
-    setSelectedPhoto(photo);
-  };
-
-  const onClosePhotoDetailsModal = function() {
-    setModalOpen(false);
-  };
+  const isPhotoInFavorites = (id) => state.favPhotos.includes(id);
 
   return { state, updateToFavPhotoIds, onPhotoSelect, onClosePhotoDetailsModal, isPhotoInFavorites };
 }
 
 export default useApplicationData;
+
