@@ -10,9 +10,11 @@ import PhotoDetailsModal from 'routes/PhotoDetailsModal';
 const App = () => {
 
   const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
   
-  const openModal = () => {
+  const openModal = (photo) => {
     setModalOpen(true);
+    setSelectedPhoto(photo);
   };
 
   const closeModal = () => {
@@ -22,7 +24,7 @@ const App = () => {
   return (
     <div className="App">
       <HomeRoute photos={mockPhotos} topics={mockTopics} openModal={openModal}/>
-      {isModalOpen && <PhotoDetailsModal closeModal={closeModal} />}
+      {isModalOpen && <PhotoDetailsModal closeModal={closeModal} photo={selectedPhoto} />}
     </div>
   );
 };
