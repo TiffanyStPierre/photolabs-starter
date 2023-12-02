@@ -7,7 +7,8 @@ export const ACTIONS = {
   SET_MODAL_OPEN: 'SET_MODAL_OPEN',
   SET_SELECTED_PHOTO: 'SET_SELECTED_PHOTO',
   SET_PHOTO_DATA: 'SET_PHOTO_DATA',
-  SET_TOPIC_DATA: 'SET_TOPIC_DATA'
+  SET_TOPIC_DATA: 'SET_TOPIC_DATA',
+  SET_SELECTED_TOPIC: 'SET_SELECTED_TOPIC',
 };
 
 // Define initial state
@@ -16,7 +17,8 @@ const initialState = {
   selectedPhoto: null,
   favPhotos: [],
   photoData: [],
-  topicData: []
+  topicData: [],
+  selectedTopic: null
 };
 
 // Define the reducer function
@@ -34,6 +36,8 @@ function reducer(state, action) {
       return { ...state, photoData: action.payload };
     case 'SET_TOPIC_DATA':
       return { ...state, topicData: action.payload };
+    case ACTIONS.SET_SELECTED_TOPIC:
+      return { ...state, selectedTopic: action.payload };
     default:
       throw new Error(`Tried to reduce with unsupported action type: ${action.type}`);
   }
@@ -46,13 +50,13 @@ function useApplicationData() {
   useEffect(() => {
     fetch("http://localhost:8001/api/photos")
       .then((response) => response.json())
-      .then((data) => dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data }))
+      .then((data) => dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data }));
   }, []);
 
   useEffect(() => {
     fetch("http://localhost:8001/api/topics")
       .then((response) => response.json())
-      .then((data) => dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: data }))
+      .then((data) => dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: data }));
   }, []);
 
   // Action creators
@@ -65,13 +69,22 @@ function useApplicationData() {
     dispatch({ type: ACTIONS.SET_SELECTED_PHOTO, payload: photo });
   };
 
+  const onTopicSelect = (topic) => {
+    dispatch({ type: ACTIONS.SET_SELECTED_TOPIC, payload: topic });
+    console.log(topic);
+
+    fetch(`http://localhost:8001/api/topics/photos/${topic.id}`)
+      .then((response) => response.json())
+      .then((data) => dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data }));
+  };
+
   const onClosePhotoDetailsModal = () => {
     dispatch({ type: ACTIONS.SET_MODAL_OPEN, payload: false });
   };
 
   const isPhotoInFavorites = (id) => state.favPhotos.includes(id);
 
-  return { state, updateToFavPhotoIds, onPhotoSelect, onClosePhotoDetailsModal, isPhotoInFavorites };
+  return { state, updateToFavPhotoIds, onPhotoSelect, onClosePhotoDetailsModal, isPhotoInFavorites, onTopicSelect };
 }
 
 export default useApplicationData;
