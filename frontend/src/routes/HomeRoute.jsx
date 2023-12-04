@@ -12,6 +12,10 @@ const HomeRoute = (props) => {
         topics={props.topics}
         favorites={props.favPhotos.length}
         topicSelect={props.topicSelect}
+        displayFavPhotos= {props.displayFavPhotos}
+        favPhotos={props.favPhotos}
+        resetDisplayedPhotos={props.resetDisplayedPhotos}
+
       />
 
       <PhotoList

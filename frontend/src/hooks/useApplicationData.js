@@ -80,13 +80,31 @@ function useApplicationData() {
       .then((data) => dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data }));
   };
 
+  const displayFavPhotos = () => {
+    // Filter the photos based on favPhotos array
+    const favPhotosData = state.photoData.filter(photo => state.favPhotos.includes(photo.id));
+
+    // Dispatch the filtered photos to update the displayed photos
+    dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: favPhotosData });
+  };
+
+  const resetDisplayedPhotos = () => {
+    // Fetch all photos from the API
+    fetch("http://localhost:8001/api/photos")
+      .then((response) => response.json())
+      .then((data) => dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data }));
+  
+    // Clear the selected topic if applicable
+    dispatch({ type: ACTIONS.SET_SELECTED_TOPIC, payload: null });
+  };
+
   const onClosePhotoDetailsModal = () => {
     dispatch({ type: ACTIONS.SET_MODAL_OPEN, payload: false });
   };
 
   const isPhotoInFavorites = (id) => state.favPhotos.includes(id);
 
-  return { state, updateToFavPhotoIds, onPhotoSelect, onClosePhotoDetailsModal, isPhotoInFavorites, onTopicSelect };
+  return { state, updateToFavPhotoIds, onPhotoSelect, onClosePhotoDetailsModal, isPhotoInFavorites, onTopicSelect, displayFavPhotos, resetDisplayedPhotos };
 }
 
 export default useApplicationData;

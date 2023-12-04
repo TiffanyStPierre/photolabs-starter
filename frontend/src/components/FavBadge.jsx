@@ -5,9 +5,13 @@ import '../styles/FavBadge.scss';
 
 const FavBadge = (props) => {
   
+  const handleFavClick = () => {
+    props.displayFavPhotos(props.favPhotos);
+  };
+
   return (
-    <div className='fav-badge'>
-      <FavIcon displayAlert={props.favorites} selected={true} />
+    <div className='fav-badge' onClick={handleFavClick}>
+      <FavIcon displayAlert={props.favorites} selected={true}/>
     </div>
   ) 
 };
