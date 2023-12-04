@@ -47,12 +47,14 @@ function useApplicationData() {
   // Use useReducer with the reducer and initial state
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  //fetch photos data from API on first render
   useEffect(() => {
     fetch("http://localhost:8001/api/photos")
       .then((response) => response.json())
       .then((data) => dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data }));
   }, []);
 
+  //fetch topics data from API on first render
   useEffect(() => {
     fetch("http://localhost:8001/api/topics")
       .then((response) => response.json())
@@ -71,8 +73,8 @@ function useApplicationData() {
 
   const onTopicSelect = (topic) => {
     dispatch({ type: ACTIONS.SET_SELECTED_TOPIC, payload: topic });
-    console.log(topic);
 
+    //fetch photos for topic id from API
     fetch(`http://localhost:8001/api/topics/photos/${topic.id}`)
       .then((response) => response.json())
       .then((data) => dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data }));

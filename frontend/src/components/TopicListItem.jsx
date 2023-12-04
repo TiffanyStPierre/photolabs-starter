@@ -6,7 +6,6 @@ const TopicListItem = (props) => {
 
   const handleTopicClick = () => {
     props.topicSelect(props.topic);
-    console.log(props.topic);
   };
 
   return (

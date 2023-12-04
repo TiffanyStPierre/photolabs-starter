@@ -1,7 +1,5 @@
-# react-photolabs
-The PhotoLabs project for the Web Development React course programming.
-
 # Photolabs
+This is a full stack React app using SASS for styling & Express on the backend. This app displays a selection of photos, allows the user to view the details of a specific photo in a modal & allows the user to filter photos by topic. The photo and topic data is fetched from the project's PostgreSQL database.
 
 ## Setup
 
@@ -14,7 +12,7 @@ cd frontend
 npm start
 ```
 
-## [Backend] Running Backend Servier
+## [Backend] Running Backend Server
 
 Read `backend/readme` for further setup details.
 

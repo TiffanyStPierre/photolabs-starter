@@ -15,7 +15,10 @@ const PhotoDetailsModal = (props) => {
 
   // Filter out the main photo from the list of similar photos
   const similarPhotos = photos.filter((p) => p.id !== id);
+
+  // Check if photo is already in favorites list
   const selected = props.isPhotoInFavorites(props.photo.id);
+  
   return (
     < div className="photo-details-modal">
       <div className="photo-details-modal__top-bar">
