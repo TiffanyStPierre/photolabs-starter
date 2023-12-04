@@ -20,3 +20,9 @@ Read `backend/readme` for further setup details.
 cd backend
 npm start
 ```
+
+## Screenshots
+
+!["Home Page"](https://github.com/TiffanyStPierre/photolabs-starter/blob/main/docs/Photolabs-Home.png?raw=true)
+
+!["Photo Modal"](https://github.com/TiffanyStPierre/photolabs-starter/blob/main/docs/Photolabs-Modal.png?raw=true)
